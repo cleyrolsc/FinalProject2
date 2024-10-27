@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import { getAllPayrolls, getPayrollByEmployeeId, createPayroll, getSpecificPayrollForEmployee } from '../services/payrollService';
 
 export const fetchAllPayrolls = async (req: Request, res: Response) => {
-    console.log('Fetching all payrolls');
     try {
         const payrolls = await getAllPayrolls(); // Fetch all payrolls
         res.status(200).json(payrolls); // Return payroll records
