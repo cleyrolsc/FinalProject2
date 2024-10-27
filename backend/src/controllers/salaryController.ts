@@ -6,14 +6,14 @@ export const getSalariesByRole = async (req: Request, res: Response) => {
         const salaries = await getSalariesByRoleService();
         res.status(200).json(salaries);
     } catch (error) {
-        // Type assertion to ensure error is treated as an instance of Error
+
         const errorMessage = (error as Error).message || 'Unknown error occurred';
         res.status(500).json({ message: 'Error fetching salaries', error: errorMessage });
     }
 };
 
 export const deleteSalary = async (req: Request, res: Response) => {
-    const { id } = req.params; // Get the salary ID from the request parameters
+    const { id } = req.params;
     try {
         const result = await deleteSalaryService(id);
         if (result.rowCount === 0) {

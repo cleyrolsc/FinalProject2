@@ -31,14 +31,14 @@ export const getEmployeeById = async (req: Request, res: Response) => {
             res.status(404).json({ message: 'Employee not found' });
             return;
         }
-        const { employeeid, ...rest } = employee; // Destructure to exclude employeeid
+        const { employeeid, ...rest } = employee;
         const formattedEmployee = {
             ...rest,
-            employeeId: `C-${String(employee.idemp).padStart(4, '0')}`, // Format the ID for display
+            employeeId: `C-${String(employee.idemp).padStart(4, '0')}`,
         };
         res.status(200).json(formattedEmployee);
     } catch (err) {
-        console.error(err); // Log the error for debugging
+        console.error(err);
         res.status(500).json({ message: 'Error fetching employee' });
     }
 };
@@ -53,12 +53,12 @@ export const getEmployeeHours = async (req: Request, res: Response) => {
     }
 };
 
-// src/controllers/employeeController.ts
+
 export const getEmployeeSalary = async (req: Request, res: Response) => {
     const { id } = req.params;
     try {
         const employeeSalary = await getEmployeeSalaryService(id);
-        res.status(200).json(employeeSalary); // Return only fullname, role, and salary
+        res.status(200).json(employeeSalary);
     } catch (err) {
         console.error('Error fetching employee salary:', err);
         res.status(500).json({ message: 'Error fetching employee salary' });
@@ -67,78 +67,77 @@ export const getEmployeeSalary = async (req: Request, res: Response) => {
 
 
 export const addEmployee = async (req: Request, res: Response) => {
-    const { fullname, role, username, password } = req.body; // Extract data from request
+    const { fullname, role, username, password } = req.body;
     try {
-        console.log(`Role to be fetched: ${role}`); // Log the role
-        const roleId = await getRoleIdByName(role); // Fetch the role ID based on the role name
-        console.log(`Role ID found: ${JSON.stringify(roleId)}`); // Log the fetched role ID
+        console.log(`Role to be fetched: ${role}`);
+        const roleId = await getRoleIdByName(role);
+        console.log(`Role ID found: ${JSON.stringify(roleId)}`);
 
         if (!roleId) {
-            res.status(400).json({ message: 'Role not found' }); // Return error if role is not found
+            res.status(400).json({ message: 'Role not found' });
             return;
         }
 
         const newEmployee = await createEmployee({
             fullname,
-            role_id: roleId.idrole, // Ensure you're using the correct property here
+            role_id: roleId.idrole,
             username,
             password,
             active: true
         });
 
-        // After creating the employee, create the account
-        const accountCreated = await createAccountForEmployee(username, password, roleId.idrole); // Call the account creation service
-        console.log(`Account created: ${JSON.stringify(accountCreated)}`); // Log the created account for debugging
+        const accountCreated = await createAccountForEmployee(username, password, roleId.idrole);
+        console.log(`Account created: ${JSON.stringify(accountCreated)}`);
 
-        res.status(201).json({ newEmployee, accountCreated }); // Return both new employee and created account
+        res.status(201).json({ newEmployee, accountCreated });
     } catch (err) {
-        console.error(err); // Log the error for debugging
-        res.status(500).json({ message: 'Error adding employee' }); // Return error message
+        console.error(err);
+        res.status(500).json({ message: 'Error adding employee' });
     }
 };
 
 
 
 export const addEmployeeHours = async (req: Request, res: Response) => {
-    const { id } = req.params; // Extract employee ID from request parameters
-    const hoursData = req.body; // Extract hours data from request body
+    const { id } = req.params;
+    const hoursData = req.body;
     try {
-        // Call the service function to add employee hours
+
         const newHours = await addEmployeeHoursService(id, hoursData);
-        res.status(201).json(newHours); // Return the newly created hours
+        res.status(201).json(newHours);
     } catch (err) {
-        console.error(err); // Log the error for debugging
-        res.status(500).json({ message: 'Error adding employee hours' }); // Send error response
+        console.error(err);
+        res.status(500).json({ message: 'Error adding employee hours' });
     }
 };
 
 export const updateEmployee = async (req: Request, res: Response) => {
-    const { id } = req.params; // Get the employee ID from the request parameters
-    const { fullname } = req.body; // Only extract fullname from the request body
+    const { id } = req.params;
+    const { fullname } = req.body;
     try {
-        const updatedEmployee = await updateEmployeeService(id, fullname); // Call the service with ID and fullname
+        const updatedEmployee = await updateEmployeeService(id, fullname);
         if (!updatedEmployee) {
             res.status(404).json({ message: 'Employee not found' });
             return;
         }
-        res.status(200).json(updatedEmployee); // Return the updated employee details
+        res.status(200).json(updatedEmployee);
     } catch (err) {
-        console.error(err); // Log the error for debugging
+        console.error(err);
         res.status(500).json({ message: 'Error updating employee' });
     }
 };
 
 export const softDeleteEmployee = async (req: Request, res: Response) => {
-    const { id } = req.params; // Get the employee ID from the request parameters
+    const { id } = req.params;
     try {
-        const result = await softDeleteEmployeeService(id); // Call the service to soft delete
+        const result = await softDeleteEmployeeService(id);
         if (!result) {
-            res.status(404).json({ message: 'Employee not found' }); // If not found, return 404
+            res.status(404).json({ message: 'Employee not found' });
             return;
         }
-        res.status(204).send(); // No content, indicate successful deletion
+        res.status(204).send();
     } catch (err) {
-        console.error(err); // Log the error for debugging
-        res.status(500).json({ message: 'Error deleting employee' }); // Send error response
+        console.error(err);
+        res.status(500).json({ message: 'Error deleting employee' });
     }
 };

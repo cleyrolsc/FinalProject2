@@ -6,16 +6,16 @@ import {
     updateRoleById,
     deleteRole,
     getEmployeesByRole
-} from '../controllers/rolesController'; // Import the relevant controllers
+} from '../controllers/rolesController';
 
 const roleRouter = Router();
 
-// Define routes for roles
-roleRouter.get('/', getRoles); // Get all roles
-roleRouter.get('/:id', getRoleById); // Get a specific role by ID
-roleRouter.get('/:id/employees', getEmployeesByRole); // GET /cargo/:id/empleado
-roleRouter.post('/', addRole); // Add a new role
-roleRouter.put('/:id', updateRoleById); // Update an existing role
-roleRouter.delete('/:id', deleteRole); // Delete a role
+
+roleRouter.get('/', getRoles);
+roleRouter.get('/:id', getRoleById);
+roleRouter.get('/:id/employees', getEmployeesByRole);
+roleRouter.post('/', addRole);
+roleRouter.put('/:id', updateRoleById);
+roleRouter.delete('/:id', deleteRole);
 
 export default roleRouter;

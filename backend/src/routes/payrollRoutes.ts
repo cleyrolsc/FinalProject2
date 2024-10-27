@@ -3,9 +3,9 @@ import { fetchAllPayrolls, fetchPayrollsByEmployeeId, addPayroll, fetchSpecificP
 
 const payrollRouter = express.Router();
 
-payrollRouter.get('/', fetchAllPayrolls); // GET /payroll
-payrollRouter.get('/employee/:id', fetchPayrollsByEmployeeId); // GET /payroll/employee/:id
-payrollRouter.post('/', addPayroll); // POST /payroll
-payrollRouter.get('/:id/employee/:employeeId', fetchSpecificPayrollForEmployee); // GET /payroll/:id/employee/:employeeId
+payrollRouter.get('/', fetchAllPayrolls);
+payrollRouter.get('/employee/:id', fetchPayrollsByEmployeeId);
+payrollRouter.post('/', addPayroll);
+payrollRouter.get('/:id/employee/:employeeId', fetchSpecificPayrollForEmployee);
 
 export default payrollRouter;

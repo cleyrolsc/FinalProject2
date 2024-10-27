@@ -1,4 +1,4 @@
-import pool from '../config/db'; // Import your database connection
+import pool from '../config/db';
 
 export const getSalariesByRoleService = async () => {
     const result = await pool.query(
@@ -12,5 +12,5 @@ export const deleteSalaryService = async (id: string) => {
         'DELETE FROM public.salary WHERE idsalary = $1 AND idsalary NOT IN (SELECT salary_idsalary FROM public.role)',
         [id]
     );
-    return result; // Return the result to check how many rows were affected
+    return result;
 };

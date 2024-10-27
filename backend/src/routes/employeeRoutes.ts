@@ -12,7 +12,7 @@ import {
 
 const employeeRouter = Router();
 
-// Define the routes
+
 employeeRouter.get('/', getAllEmployees);
 employeeRouter.get('/:id', getEmployeeById);
 employeeRouter.post('/', addEmployee);

@@ -1,10 +1,10 @@
-// src/routes/authRoutes.ts
+
 
 import express from 'express';
-import { login } from '../controllers/authController'; // Import the login function
+import { login } from '../controllers/authController';
 
 const authRouter = express.Router();
 
-authRouter.post('/', login); // POST /login
+authRouter.post('/', login);
 
 export default authRouter;

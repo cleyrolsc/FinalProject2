@@ -93,21 +93,21 @@ export const addEmployeeHours = async (employeeId: string, hoursData: any) => {
             'INSERT INTO workedHour (empleado_idEmp, horas, fechaCorte) VALUES ($1, $2, $3) RETURNING *',
             [employeeId, hours, date] // Insert values into the workedHour table
         );
-        await pool.query('COMMIT'); // Commit the transaction
-        return result.rows[0]; // Return the inserted row
+        await pool.query('COMMIT');
+        return result.rows[0];
     } catch (error: any) {
-        await pool.query('ROLLBACK'); // Rollback if there's an error
-        throw new Error('Failed to add employee hours: ' + error.message); // Throw an error with the message
+        await pool.query('ROLLBACK');
+        throw new Error('Failed to add employee hours: ' + error.message);
     }
 };
 
 
 export const updateEmployeeService = async (id: string, fullname: string) => {
     const result = await pool.query(
-        'UPDATE public.employee SET fullname = $1 WHERE idemp = $2 RETURNING *', // Only update fullname
+        'UPDATE public.employee SET fullname = $1 WHERE idemp = $2 RETURNING *',
         [fullname, id]
     );
-    return result.rows[0]; // Return the updated employee details
+    return result.rows[0];
 };
 
 export const softDeleteEmployeeService = async (id: string) => {
@@ -115,5 +115,5 @@ export const softDeleteEmployeeService = async (id: string) => {
         'UPDATE public.employee SET active = FALSE WHERE idEmp = $1 RETURNING *',
         [id]
     );
-    return result.rows[0]; // Return the updated employee data
+    return result.rows[0];
 };

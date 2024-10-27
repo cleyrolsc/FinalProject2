@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { getAccountByUsername } from '../services/authService'; // Adjust the path if necessary
+import { getAccountByUsername } from '../services/authService';
 import dotenv from 'dotenv';
 
-dotenv.config(); // Load environment variables from .env file
+dotenv.config();
 
-const JWT_SECRET = process.env.JWT_SECRET || 'default_secret'; // Use the secret from env or default
+const JWT_SECRET = process.env.JWT_SECRET || 'default_secret';
 
 export const login = async (req: Request, res: Response) => {
     const { username, password } = req.body;
