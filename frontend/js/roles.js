@@ -3,14 +3,15 @@ const searchRoleId = document.getElementById("searchRoleId");
 const goRoleButton = document.querySelector(".goRole");
 const clearRoleButton = document.querySelector(".clearRole");
 const createRoleButton = document.getElementById("createRoleButton");
-let currentEditId = null;
+const deleteRoleButton = document.getElementById("confirmDeleteRole");
+let currentDeleteId = null; // To track which role is being deleted
 
 // Fetch and display all roles
 const fetchRoles = async () => {
         try {
                 const response = await axios.get("http://localhost:5000/roles");
-                console.log("Fetched Roles:", response.data); // Log the fetched roles
-                displayRoles(response.data); // Call displayRoles function with fetched data
+                console.log("Fetched Roles:", response.data);
+                displayRoles(response.data);
         } catch (error) {
                 console.error("Error fetching roles:", error);
         }
@@ -21,24 +22,22 @@ const displayRoles = (roles) => {
         roleList.innerHTML = ''; // Clear current role list
 
         roles.forEach((role) => {
+                console.log("Role Object:", role); // Log the role object to check its structure
                 const roleItem = document.createElement("tr");
                 roleItem.className = "border-b";
                 roleItem.innerHTML = `
-      
-                <td class="border border-gray-300 px-4 py-2">${role.role}</td>
-         
-                <td class="border border-gray-300 px-4 py-2"><button onclick="openEditModal('${role.idrole}', '${role.role}', '${role.salary_idsalary}')" class="bg-yellow-500 text-white rounded p-2">Edit</button></td>
-                <td class="border border-gray-300 px-4 py-2"><button onclick="confirmDelete('${role.idrole}')" class="bg-red-500 text-white rounded p-2">Delete</button></td>
-            `;
+            <td class="border border-gray-300 px-4 py-2">${role.id}</td> <!-- Ensure id is used here -->
+            <td class="border border-gray-300 px-4 py-2">${role.role}</td>
+            <td class="border border-gray-300 px-4 py-2">
+                <button onclick="confirmDelete('${role.id}')" class="bg-red-500 text-white rounded p-2">Delete</button> <!-- Correctly use role.id -->
+            </td>
+        `;
                 roleList.appendChild(roleItem);
         });
 };
 
-// Event listener for the create role button
-
-
 // Function to create a new role
-document.getElementById("createRoleButton").addEventListener("click", async () => {
+createRoleButton.addEventListener("click", async () => {
         const roleName = document.getElementById("roleName").value;
         const roleSalary = document.getElementById("roleSalary").value;
         const isBypass = document.getElementById("isBypass").value === "true"; // Convert to boolean
@@ -50,19 +49,6 @@ document.getElementById("createRoleButton").addEventListener("click", async () =
                 console.error("Error creating role:", error);
         }
 });
-
-
-// Event listener for the search button
-const searchRoleById = async (id) => {
-        try {
-                const response = await axios.get(`http://localhost:5000/roles/${id}`);
-                const role = response.data;
-                displayRoles([role]); // Assuming displayRoles can handle a single role
-        } catch (error) {
-                console.error("Error fetching role by ID:", error);
-                alert("Role not found."); // Notify user if role isn't found
-        }
-};
 
 // Event listener for the search button
 goRoleButton.addEventListener("click", () => {
@@ -78,22 +64,31 @@ clearRoleButton.addEventListener("click", () => {
         fetchRoles(); // Fetch all roles again
 });
 
-// Function to open the edit modal
-const openEditModal = (id, role, salary) => {
-        currentEditId = id; // Set the current ID for editing
-        document.getElementById("roleName").value = role; // Populate role name input
-        document.getElementById("roleSalary").value = salary; // Populate salary input
-        const editModal = new bootstrap.Modal(document.getElementById('createRoleModal'));
-        editModal.show(); // Show the edit modal
-};
-
+// Function to confirm deletion
 // Function to confirm deletion
 const confirmDelete = (id) => {
-        // Store the ID and show a confirmation modal (similar to employee)
-        currentDeleteId = id;
+        currentDeleteId = id; // Set the current ID for deletion
         const deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmationModal'));
-        deleteModal.show();
+        deleteModal.show(); // Show the delete confirmation modal
 };
+
+// Event listener for the confirm delete button
+deleteRoleButton.addEventListener("click", async () => {
+        if (currentDeleteId) {
+                try {
+                        const response = await axios.delete(`http://localhost:5000/roles/${currentDeleteId}`); // Send delete request
+                        console.log("Delete Response:", response.data); // Log response for debugging
+                        fetchRoles(); // Refresh the role list
+
+                        // Hide the modal after deletion
+                        const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteConfirmationModal'));
+                        deleteModal.hide();
+                } catch (error) {
+                        console.error("Error deleting role:", error);
+                        alert("Failed to delete role: " + (error.response ? error.response.data.message : error.message));
+                }
+        }
+});
 
 // Fetch all roles when the page loads
 fetchRoles();
