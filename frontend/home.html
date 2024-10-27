@@ -57,7 +57,7 @@
             </div>
         </header>
         <main class="flex flex-col items-center justify-center w-11/12 mt-10 gap-4 mx-auto">
-            <!-- Search and Buttons Container -->
+
             <div class="flex justify-between items-center w-full max-w-5xl p-4 bg-gray-100 rounded-lg shadow-md mb-4">
                 <div>
                     <input type="text" placeholder="Search by Employee ID"
@@ -65,14 +65,14 @@
                     <button class="rounded-lg bg-blue-200 p-2 goHome hover:bg-blue-300">Search</button>
                     <button class="rounded-lg bg-slate-200 p-2 clearHome hover:bg-slate-300">Clear</button>
                 </div>
-                <!-- Button trigger modal -->
+
                 <button type="button" class="btn btn-success" data-bs-toggle="modal"
                     data-bs-target="#createEmployeeModal">
                     Create Employee
                 </button>
             </div>
 
-            <!-- Create Employee Modal -->
+
             <div class="modal fade" id="createEmployeeModal" tabindex="-1" aria-labelledby="createEmployeeModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">
@@ -105,7 +105,7 @@
                 </div>
             </div>
 
-            <!-- Edit Employee Modal -->
+
             <div class="modal fade" id="editEmployeeModal" tabindex="-1" aria-labelledby="editEmployeeModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">
@@ -127,7 +127,7 @@
                 </div>
             </div>
 
-            <!-- Delete Confirmation Modal -->
+
             <div class="modal fade" id="deleteConfirmationModal" tabindex="-1"
                 aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -148,7 +148,7 @@
                 </div>
             </div>
 
-            <!-- Employee Table -->
+
             <div class="overflow-x-auto home table mt-4 w-full max-w-5xl">
                 <table class="table-auto border-collapse border border-gray-300 w-full">
                     <thead class="bg-gray-200">
@@ -161,7 +161,7 @@
                         </tr>
                     </thead>
                     <tbody id="employeeList">
-                        <!-- Employee items will be dynamically inserted here -->
+
                     </tbody>
                 </table>
             </div>

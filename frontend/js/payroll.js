@@ -1,7 +1,6 @@
 const payrollList = document.getElementById("payrollList");
 const payrollForm = document.getElementById("payrollForm");
 
-// Fetch and display all payroll records
 const fetchPayrolls = async () => {
     try {
         const response = await axios.get("http://localhost:5000/payroll");
@@ -11,9 +10,9 @@ const fetchPayrolls = async () => {
     }
 };
 
-// Function to display payrolls in the table
+
 const displayPayrolls = (payrolls) => {
-    payrollList.innerHTML = ''; // Clear current payroll list
+    payrollList.innerHTML = '';
 
     payrolls.forEach((payroll) => {
         const payrollItem = document.createElement("tr");
@@ -30,7 +29,7 @@ const displayPayrolls = (payrolls) => {
     });
 };
 
-// Function to handle payroll form submission
+
 document.getElementById("createPayroll").addEventListener("click", async () => {
     const payrollData = {
         totalpayroll: document.getElementById("totalPayroll").value,
@@ -43,10 +42,10 @@ document.getElementById("createPayroll").addEventListener("click", async () => {
 
     try {
         const response = await axios.post("http://localhost:5000/payroll", payrollData);
-        fetchPayrolls(); // Refresh the payroll list
+        fetchPayrolls();
         const modal = bootstrap.Modal.getInstance(document.getElementById('payrollModal'));
-        modal.hide(); // Hide the modal
-        payrollForm.reset(); // Reset the form fields
+        modal.hide();
+        payrollForm.reset();
         document.getElementById("responseMessage").innerText = "Payroll created successfully!";
     } catch (error) {
         console.error("Error creating payroll:", error);
@@ -54,5 +53,5 @@ document.getElementById("createPayroll").addEventListener("click", async () => {
     }
 });
 
-// Fetch all payrolls when the page loads
+
 fetchPayrolls();

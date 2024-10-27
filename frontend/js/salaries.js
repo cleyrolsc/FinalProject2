@@ -1,8 +1,8 @@
 const salaryList = document.getElementById("salaryList");
-let currentEditSalaryId = null; // To track which salary is being edited
-let currentDeleteSalaryId = null; // To track which salary is being deleted
+let currentEditSalaryId = null;
+let currentDeleteSalaryId = null;
 
-// Function to fetch and display all salaries
+
 const fetchSalaries = async () => {
     try {
         const response = await axios.get("http://localhost:5000/salaries/roles");
@@ -13,9 +13,9 @@ const fetchSalaries = async () => {
     }
 };
 
-// Function to display salaries in the table
+
 const displaySalaries = (salaries) => {
-    salaryList.innerHTML = ''; // Clear current salary list
+    salaryList.innerHTML = '';
 
     salaries.forEach((salary) => {
         const salaryItem = document.createElement("tr");
@@ -29,28 +29,27 @@ const displaySalaries = (salaries) => {
     });
 };
 
-// Function to confirm deletion of a salary
+
 const confirmDeleteSalary = (id) => {
-    currentDeleteSalaryId = id; // Set the current ID for deletion
+    currentDeleteSalaryId = id;
     const deleteModal = new bootstrap.Modal(document.getElementById('deleteSalaryConfirmationModal'));
-    deleteModal.show(); // Show the delete confirmation modal
+    deleteModal.show();
 };
 
-// Event listener for the confirm delete button
+
 document.getElementById("confirmDeleteSalary").addEventListener("click", async () => {
     if (currentDeleteSalaryId) {
         try {
-            // Send delete request
+
             const response = await axios.delete(`http://localhost:5000/salaries/${currentDeleteSalaryId}`);
-            console.log("Delete response:", response.data); // Log the response data
-            fetchSalaries(); // Refresh the salary list
+            console.log("Delete response:", response.data);
+            fetchSalaries();
             const deleteModal = new bootstrap.Modal(document.getElementById('deleteSalaryConfirmationModal'));
-            deleteModal.hide(); // Hide the modal after deletion
+            deleteModal.hide();
         } catch (error) {
             console.error("Error deleting salary:", error.response ? error.response.data : error.message);
         }
     }
 });
 
-// Fetch all salaries when the page loads
 fetchSalaries();

@@ -10,7 +10,7 @@
     <script src="https://cdn.tailwindcss.com" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <!-- Removed the link to styles.css as you mentioned you're not using it -->
+
     <script src="js/roles.js" defer></script>
 </head>
 
@@ -56,7 +56,7 @@
             </div>
         </header>
         <main class="flex flex-col items-center justify-center w-11/12 mt-10 gap-4 mx-auto">
-            <!-- Search and Buttons Container -->
+
             <div class="flex justify-between items-center w-full max-w-5xl p-4 bg-gray-100 rounded-lg shadow-md mb-4">
                 <div>
                     <input type="text" placeholder="Search by Role ID"
@@ -68,7 +68,7 @@
                     data-bs-target="#createRoleModal">Create Role</button>
             </div>
 
-            <!-- Create Role Modal -->
+
             <div class="modal fade" id="createRoleModal" tabindex="-1" aria-labelledby="createRoleModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">
@@ -117,7 +117,7 @@
             </div>
 
 
-            <!-- Roles Table -->
+
             <div class="overflow-x-auto role-table mt-4 w-full max-w-5xl">
                 <table class="table-auto border-collapse border border-gray-300 w-full">
                     <thead class="bg-gray-200">
@@ -128,7 +128,7 @@
                         </tr>
                     </thead>
                     <tbody id="roleList">
-                        <!-- Role items will be dynamically inserted here -->
+
                     </tbody>
                 </table>
             </div>

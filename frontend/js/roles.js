@@ -4,9 +4,9 @@ const goRoleButton = document.querySelector(".goRole");
 const clearRoleButton = document.querySelector(".clearRole");
 const createRoleButton = document.getElementById("createRoleButton");
 const deleteRoleButton = document.getElementById("confirmDeleteRole");
-let currentDeleteId = null; // To track which role is being deleted
+let currentDeleteId = null;
 
-// Fetch and display all roles
+
 const fetchRoles = async () => {
         try {
                 const response = await axios.get("http://localhost:5000/roles");
@@ -16,9 +16,9 @@ const fetchRoles = async () => {
         }
 };
 
-// Function to display roles in the table
+
 const displayRoles = (roles) => {
-        roleList.innerHTML = ''; // Clear current role list
+        roleList.innerHTML = '';
 
         roles.forEach((role) => {
                 const roleItem = document.createElement("tr");
@@ -34,11 +34,11 @@ const displayRoles = (roles) => {
         });
 };
 
-// Function to create a new role
+
 createRoleButton.addEventListener("click", async () => {
         const roleName = document.getElementById("roleName").value.trim();
         const roleSalary = document.getElementById("roleSalary").value;
-        const isBypass = document.getElementById("isBypass").value === "true"; // Convert to boolean
+        const isBypass = document.getElementById("isBypass").value === "true";
 
         if (!roleName || !roleSalary) {
                 alert("Role name and salary are required.");
@@ -51,56 +51,56 @@ createRoleButton.addEventListener("click", async () => {
                         salary: roleSalary,
                         isBypass: isBypass
                 });
-                fetchRoles(); // Refresh the role list
+                fetchRoles();
                 document.getElementById("roleName").value = '';
                 document.getElementById("roleSalary").value = '';
-                document.getElementById("isBypass").value = "false"; // Reset the select dropdown
+                document.getElementById("isBypass").value = "false";
         } catch (error) {
                 console.error("Error creating role:", error);
                 alert("Failed to create role: " + (error.response ? error.response.data.message : error.message));
         }
 });
 
-// Function to search role by ID
+
 const searchRoleById = async (id) => {
         try {
                 const response = await axios.get(`http://localhost:5000/roles/${id}`);
-                displayRoles([response.data]); // Display the specific role
+                displayRoles([response.data]);
         } catch (error) {
                 console.error("Error fetching role by ID:", error);
                 alert("Role not found.");
         }
 };
 
-// Event listener for the search button
+
 goRoleButton.addEventListener("click", () => {
         const id = searchRoleId.value.trim();
         if (id) {
-                searchRoleById(id); // Fetch role by ID
+                searchRoleById(id);
         }
 });
 
-// Event listener for the clear button
+
 clearRoleButton.addEventListener("click", () => {
         searchRoleId.value = '';
-        fetchRoles(); // Fetch all roles again
+        fetchRoles();
 });
 
-// Function to confirm deletion
+
 const confirmDelete = (id) => {
-        currentDeleteId = id; // Set the current ID for deletion
+        currentDeleteId = id;
         const deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmationModal'));
-        deleteModal.show(); // Show the delete confirmation modal
+        deleteModal.show();
 };
 
-// Event listener for the confirm delete button
+
 deleteRoleButton.addEventListener("click", async () => {
         if (currentDeleteId) {
                 try {
-                        const response = await axios.delete(`http://localhost:5000/roles/${currentDeleteId}`); // Send delete request
-                        fetchRoles(); // Refresh the role list
+                        const response = await axios.delete(`http://localhost:5000/roles/${currentDeleteId}`);
+                        fetchRoles();
                         const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteConfirmationModal'));
-                        deleteModal.hide(); // Hide the modal after deletion
+                        deleteModal.hide();
                 } catch (error) {
                         console.error("Error deleting role:", error);
                         alert("Failed to delete role: " + (error.response ? error.response.data.message : error.message));
@@ -108,5 +108,4 @@ deleteRoleButton.addEventListener("click", async () => {
         }
 });
 
-// Fetch all roles when the page loads
 fetchRoles();
