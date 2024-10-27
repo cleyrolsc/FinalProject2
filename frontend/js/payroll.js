@@ -18,7 +18,7 @@ const displayPayrolls = (payrolls) => {
     payrolls.forEach((payroll) => {
         const payrollItem = document.createElement("tr");
         payrollItem.innerHTML = `
-            <td class="border border-gray-300 px-4 py-2">${payroll.idpayroll}</td>
+ 
             <td class="border border-gray-300 px-4 py-2">${payroll.totalpayroll}</td>
             <td class="border border-gray-300 px-4 py-2">${payroll.extraamount}</td>
             <td class="border border-gray-300 px-4 py-2">${payroll.payrollcut}</td>

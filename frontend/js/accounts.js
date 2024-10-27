@@ -19,7 +19,7 @@ const displayAccounts = (accounts) => {
         const accountItem = document.createElement("tr");
         accountItem.className = "border-b";
         accountItem.innerHTML = `
-            <td class="border border-gray-300 px-4 py-2">${account.id}</td>
+         
             <td class="border border-gray-300 px-4 py-2">${account.username}</td>
             <td class="border border-gray-300 px-4 py-2">${account.password}</td> <!-- Show the password -->
             <td class="border border-gray-300 px-4 py-2">${account.active}</td>
