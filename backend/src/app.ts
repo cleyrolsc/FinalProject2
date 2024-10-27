@@ -3,6 +3,7 @@ import employeeRouter from './routes/employeeRoutes';
 import roleRouter from './routes/roleRouter';
 import salaryRouter from './routes/salaryRoute';
 import accountRoutes from './routes/accountRoutes';;
+import payrollRouter from './routes/payrollRoutes';;
 
 var cors = require('cors');
 const app = express();
@@ -17,6 +18,7 @@ app.use('/roles', roleRouter);
 app.use('/employees', employeeRouter);
 app.use('/salaries', salaryRouter);
 app.use('/account', accountRoutes);
+app.use('/payroll', payrollRouter);
 
 
 // Start the server
