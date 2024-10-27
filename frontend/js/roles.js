@@ -26,7 +26,7 @@ const displayRoles = (roles) => {
                 const roleItem = document.createElement("tr");
                 roleItem.className = "border-b";
                 roleItem.innerHTML = `
-            <td class="border border-gray-300 px-4 py-2">${role.id}</td> <!-- Ensure idrole is used here -->
+            <td class="border border-gray-300 px-4 py-2">${role.id}</td>
             <td class="border border-gray-300 px-4 py-2">${role.role}</td>
             <td class="border border-gray-300 px-4 py-2">
                 <button onclick="confirmDelete('${role.id}')" class="bg-red-500 text-white rounded p-2">Delete</button>
@@ -36,17 +36,34 @@ const displayRoles = (roles) => {
         });
 };
 
-// Function to search for a role by ID
-const searchRoleById = async (id) => {
-        try {
-                const response = await axios.get(`http://localhost:5000/roles/${id}`);
-                const role = response.data;
-                displayRoles([role]); // Display the found role
-        } catch (error) {
-                console.error("Error fetching role by ID:", error);
-                alert("Role not found."); // Notify user if role isn't found
+// Function to create a new role
+createRoleButton.addEventListener("click", async () => {
+        const roleName = document.getElementById("roleName").value.trim();
+        const roleSalary = document.getElementById("roleSalary").value;
+        const isBypass = document.getElementById("isBypass").value === "true"; // Convert to boolean
+
+        if (!roleName || !roleSalary) {
+                alert("Role name and salary are required.");
+                return;
         }
-};
+
+        try {
+                const response = await axios.post("http://localhost:5000/roles", {
+                        role: roleName,
+                        salary: roleSalary,
+                        isBypass: isBypass
+                });
+                console.log("Role created:", response.data); // Log the response
+                fetchRoles(); // Refresh the role list
+                // Optionally clear the input fields after creation
+                document.getElementById("roleName").value = '';
+                document.getElementById("roleSalary").value = '';
+                document.getElementById("isBypass").value = "false"; // Reset the select dropdown
+        } catch (error) {
+                console.error("Error creating role:", error);
+                alert("Failed to create role: " + (error.response ? error.response.data.message : error.message));
+        }
+});
 
 // Event listener for the search button
 goRoleButton.addEventListener("click", () => {
@@ -76,10 +93,8 @@ deleteRoleButton.addEventListener("click", async () => {
                         const response = await axios.delete(`http://localhost:5000/roles/${currentDeleteId}`); // Send delete request
                         console.log("Delete Response:", response.data); // Log response for debugging
                         fetchRoles(); // Refresh the role list
-
-                        // Hide the modal after deletion
                         const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteConfirmationModal'));
-                        deleteModal.hide();
+                        deleteModal.hide(); // Hide the modal after deletion
                 } catch (error) {
                         console.error("Error deleting role:", error);
                         alert("Failed to delete role: " + (error.response ? error.response.data.message : error.message));
