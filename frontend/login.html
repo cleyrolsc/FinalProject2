@@ -4,25 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Newtesh</title>
-
+    <title>Cleysrl</title>
     <script src="https://cdn.tailwindcss.com" defer></script>
-    <link rel="stylesheet" href="../assets/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
-
-    <script src="../js/login.js" type="module" defer></script>
+    <script src="../frontend/js/login.js" type="module" defer></script>
 </head>
 
 <body class="min-h-screen flex flex-col items-center justify-center gap-6">
     <h1 class="text-xl">Please Log in</h1>
-
-    <form action="" class="">
-        <div class="flex flex-col items-center justify-center gap-6">
-            <input class="rounded-lg p-4 username" type="text" placeholder="Email address">
-            <input class="rounded-lg p-4 password" type="password" placeholder="Password">
-            <button type="button" class="bg-blue-500 w-full rounded-lg p-4 text-white login">Log in</button>
-        </div>
+    <form id="loginForm" class="flex flex-col items-center justify-center gap-6">
+        <input class="rounded-lg p-4" type="text" placeholder="Email address" id="username" required>
+        <input class="rounded-lg p-4" type="password" placeholder="Password" id="password" required>
+        <button type="button" class="bg-blue-500 w-full rounded-lg p-4 text-white login">Log in</button>
+        <div id="responseMessage" class="mt-3 text-red-500"></div>
     </form>
 </body>
 
