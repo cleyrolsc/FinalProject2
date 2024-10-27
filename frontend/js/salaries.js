@@ -23,7 +23,6 @@ const displaySalaries = (salaries) => {
         salaryItem.innerHTML = `
             <td class="border border-gray-300 px-4 py-2">${salary.idsalary}</td>
             <td class="border border-gray-300 px-4 py-2">${salary.salary}</td>
-    
             <td class="border border-gray-300 px-4 py-2"><button onclick="confirmDeleteSalary(${salary.idsalary})" class="bg-red-500 text-white rounded p-2">Delete</button></td>
         `;
         salaryList.appendChild(salaryItem);

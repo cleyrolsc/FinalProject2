@@ -26,29 +26,27 @@ const displayRoles = (roles) => {
                 const roleItem = document.createElement("tr");
                 roleItem.className = "border-b";
                 roleItem.innerHTML = `
-            <td class="border border-gray-300 px-4 py-2">${role.id}</td> <!-- Ensure id is used here -->
+            <td class="border border-gray-300 px-4 py-2">${role.id}</td> <!-- Ensure idrole is used here -->
             <td class="border border-gray-300 px-4 py-2">${role.role}</td>
             <td class="border border-gray-300 px-4 py-2">
-                <button onclick="confirmDelete('${role.id}')" class="bg-red-500 text-white rounded p-2">Delete</button> <!-- Correctly use role.id -->
+                <button onclick="confirmDelete('${role.id}')" class="bg-red-500 text-white rounded p-2">Delete</button>
             </td>
         `;
                 roleList.appendChild(roleItem);
         });
 };
 
-// Function to create a new role
-createRoleButton.addEventListener("click", async () => {
-        const roleName = document.getElementById("roleName").value;
-        const roleSalary = document.getElementById("roleSalary").value;
-        const isBypass = document.getElementById("isBypass").value === "true"; // Convert to boolean
-
+// Function to search for a role by ID
+const searchRoleById = async (id) => {
         try {
-                await axios.post("http://localhost:5000/roles", { role: roleName, salary: roleSalary, isBypass: isBypass });
-                fetchRoles(); // Refresh the role list
+                const response = await axios.get(`http://localhost:5000/roles/${id}`);
+                const role = response.data;
+                displayRoles([role]); // Display the found role
         } catch (error) {
-                console.error("Error creating role:", error);
+                console.error("Error fetching role by ID:", error);
+                alert("Role not found."); // Notify user if role isn't found
         }
-});
+};
 
 // Event listener for the search button
 goRoleButton.addEventListener("click", () => {
@@ -64,7 +62,6 @@ clearRoleButton.addEventListener("click", () => {
         fetchRoles(); // Fetch all roles again
 });
 
-// Function to confirm deletion
 // Function to confirm deletion
 const confirmDelete = (id) => {
         currentDeleteId = id; // Set the current ID for deletion
