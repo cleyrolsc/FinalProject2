@@ -10,7 +10,6 @@ let currentDeleteId = null; // To track which role is being deleted
 const fetchRoles = async () => {
         try {
                 const response = await axios.get("http://localhost:5000/roles");
-                console.log("Fetched Roles:", response.data);
                 displayRoles(response.data);
         } catch (error) {
                 console.error("Error fetching roles:", error);
@@ -22,7 +21,6 @@ const displayRoles = (roles) => {
         roleList.innerHTML = ''; // Clear current role list
 
         roles.forEach((role) => {
-                console.log("Role Object:", role); // Log the role object to check its structure
                 const roleItem = document.createElement("tr");
                 roleItem.className = "border-b";
                 roleItem.innerHTML = `
@@ -53,9 +51,7 @@ createRoleButton.addEventListener("click", async () => {
                         salary: roleSalary,
                         isBypass: isBypass
                 });
-                console.log("Role created:", response.data); // Log the response
                 fetchRoles(); // Refresh the role list
-                // Optionally clear the input fields after creation
                 document.getElementById("roleName").value = '';
                 document.getElementById("roleSalary").value = '';
                 document.getElementById("isBypass").value = "false"; // Reset the select dropdown
@@ -64,6 +60,17 @@ createRoleButton.addEventListener("click", async () => {
                 alert("Failed to create role: " + (error.response ? error.response.data.message : error.message));
         }
 });
+
+// Function to search role by ID
+const searchRoleById = async (id) => {
+        try {
+                const response = await axios.get(`http://localhost:5000/roles/${id}`);
+                displayRoles([response.data]); // Display the specific role
+        } catch (error) {
+                console.error("Error fetching role by ID:", error);
+                alert("Role not found.");
+        }
+};
 
 // Event listener for the search button
 goRoleButton.addEventListener("click", () => {
@@ -91,7 +98,6 @@ deleteRoleButton.addEventListener("click", async () => {
         if (currentDeleteId) {
                 try {
                         const response = await axios.delete(`http://localhost:5000/roles/${currentDeleteId}`); // Send delete request
-                        console.log("Delete Response:", response.data); // Log response for debugging
                         fetchRoles(); // Refresh the role list
                         const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteConfirmationModal'));
                         deleteModal.hide(); // Hide the modal after deletion
