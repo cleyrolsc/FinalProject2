@@ -12,6 +12,8 @@ import {
     getRoleSalaryById
 } from '../services/employeeService';
 
+import { createAccountForEmployee } from "../services/accountService";
+
 export const getAllEmployees = async (req: Request, res: Response) => {
     try {
         const employees = await getEmployees();
@@ -65,14 +67,14 @@ export const getEmployeeSalary = async (req: Request, res: Response) => {
 
 
 export const addEmployee = async (req: Request, res: Response) => {
-    const { fullname, role, username, password } = req.body;
+    const { fullname, role, username, password } = req.body; // Extract data from request
     try {
         console.log(`Role to be fetched: ${role}`); // Log the role
-        const roleId = await getRoleIdByName(role);
+        const roleId = await getRoleIdByName(role); // Fetch the role ID based on the role name
         console.log(`Role ID found: ${JSON.stringify(roleId)}`); // Log the fetched role ID
 
         if (!roleId) {
-            res.status(400).json({ message: 'Role not found' });
+            res.status(400).json({ message: 'Role not found' }); // Return error if role is not found
             return;
         }
 
@@ -83,10 +85,15 @@ export const addEmployee = async (req: Request, res: Response) => {
             password,
             active: true
         });
-        res.status(201).json(newEmployee);
+
+        // After creating the employee, create the account
+        const accountCreated = await createAccountForEmployee(username, password, roleId.idrole); // Call the account creation service
+        console.log(`Account created: ${JSON.stringify(accountCreated)}`); // Log the created account for debugging
+
+        res.status(201).json({ newEmployee, accountCreated }); // Return both new employee and created account
     } catch (err) {
         console.error(err); // Log the error for debugging
-        res.status(500).json({ message: 'Error adding employee' });
+        res.status(500).json({ message: 'Error adding employee' }); // Return error message
     }
 };
 
